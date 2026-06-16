@@ -1,6 +1,7 @@
 import { Component, signal, inject, AfterViewInit, OnDestroy, NgZone } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ReportesService, ReportePunto } from '../../services/reportes';
+import { AuthService } from '../../services/auth';
 import * as L from 'leaflet';
 
 @Component({
@@ -12,13 +13,18 @@ import * as L from 'leaflet';
 })
 export class MapaComponent implements AfterViewInit, OnDestroy {
   private svc = inject(ReportesService);
+  private auth = inject(AuthService);
   private zone = inject(NgZone);
+
   reportes = this.svc.reportes;
   seleccionado = signal<ReportePunto | null>(null);
+  esAdmin = this.auth.esAdmin;
+
   private mapa!: L.Map;
   private marcadores: L.Marker[] = [];
 
   ngAfterViewInit() {
+    this.auth.verificarSesion();
     this.iniciarMapa();
   }
 
@@ -88,12 +94,12 @@ export class MapaComponent implements AfterViewInit, OnDestroy {
   }
 
   async cambiarEstado(estado: ReportePunto['estado']) {
-  if (this.seleccionado()) {
-    await this.svc.cambiarEstado(this.seleccionado()!.id, estado);
-    this.seleccionado.set(null);
-    this.agregarMarcadores();
+    if (this.seleccionado()) {
+      await this.svc.cambiarEstado(this.seleccionado()!.id, estado);
+      this.seleccionado.set(null);
+      this.agregarMarcadores();
+    }
   }
-}
 
   iconTipo(tipo: string) {
     return tipo === 'basura' ? '🗑️' : tipo === 'nodo' ? '♻️' : '🚛';

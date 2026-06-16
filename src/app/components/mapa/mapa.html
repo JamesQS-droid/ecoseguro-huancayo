@@ -1,4 +1,4 @@
-<<div class="mapa-container">
+<div class="mapa-container">
   <div class="mapa-sidebar">
     <h2>🗺️ Mapa de Puntos Grises</h2>
     <p class="subtitle">Av. Francisca de la Calle — Huancayo</p>
@@ -29,14 +29,14 @@
   <div class="mapa-area">
     <div id="leaflet-mapa"></div>
 
-        @if (seleccionado()) {
-        <div class="detalle-panel">
+    @if (seleccionado()) {
+      <div class="detalle-panel">
         <button class="cerrar" (click)="seleccionado.set(null)">✕</button>
         <h3>{{ iconTipo(seleccionado()!.tipo) }} Detalle del reporte</h3>
 
         @if (seleccionado()!.foto) {
-        <img class="foto-detalle" [src]="seleccionado()!.foto" alt="Evidencia del reporte" />
-       }
+          <img class="foto-detalle" [src]="seleccionado()!.foto" alt="Evidencia del reporte" />
+        }
 
         <p><strong>Descripción:</strong> {{ seleccionado()!.descripcion }}</p>
         <p><strong>Vecino:</strong> {{ seleccionado()!.vecino }}</p>
@@ -46,10 +46,13 @@
             {{ estadoLabel(seleccionado()!.estado) }}
           </span>
         </p>
-        <div class="acciones">
-          <button (click)="cambiarEstado('en_atencion')" class="btn amarillo">En atención</button>
-          <button (click)="cambiarEstado('resuelto')" class="btn verde">Marcar resuelto</button>
-        </div>
+
+        @if (esAdmin()) {
+          <div class="acciones">
+            <button (click)="cambiarEstado('en_atencion')" class="btn amarillo">🔧 En atención</button>
+            <button (click)="cambiarEstado('resuelto')" class="btn verde">✅ Marcar resuelto</button>
+          </div>
+        }
       </div>
     }
   </div>

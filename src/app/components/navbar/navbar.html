@@ -7,5 +7,10 @@
     <a routerLink="/mapa" routerLinkActive="active">🗺️ Mapa</a>
     <a routerLink="/reporte" routerLinkActive="active">📍 Reportar</a>
     <a routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a>
+    @if (auth.esAdmin()) {
+      <a routerLink="/admin" routerLinkActive="active" class="admin-link">🛡️ Admin</a>
+    } @else {
+      <a routerLink="/admin-login" class="admin-link-subtle">⚙️</a>
+    }
   </div>
 </nav>

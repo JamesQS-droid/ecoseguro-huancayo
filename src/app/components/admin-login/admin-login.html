@@ -1,0 +1,34 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-icon">🛡️</div>
+    <h2>Panel Administrativo</h2>
+    <p class="subtitle">EcoSeguro Huancayo — Solo personal autorizado</p>
+
+    <div class="form-group">
+      <label>Contraseña de acceso</label>
+      <input
+        type="password"
+        [(ngModel)]="clave"
+        placeholder="Ingresa la contraseña"
+        (keyup.enter)="ingresar()"
+        [disabled]="cargando()"
+      />
+    </div>
+
+    @if (error()) {
+      <div class="error-msg">
+        ❌ Contraseña incorrecta. Intenta nuevamente.
+      </div>
+    }
+
+    <button class="btn-ingresar" (click)="ingresar()" [disabled]="cargando() || !clave">
+      @if (cargando()) {
+        <span>Verificando...</span>
+      } @else {
+        <span>🔐 Ingresar</span>
+      }
+    </button>
+
+    <a routerLink="/mapa" class="volver">← Volver al mapa público</a>
+  </div>
+</div>
