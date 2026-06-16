@@ -1,0 +1,48 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 64px;
+  background: #1E1B2E;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .logo { font-size: 28px; }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+
+      .city { color: #F97316; }
+    }
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: 8px;
+
+    a {
+      color: #CBD5E1;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+
+      &:hover { background: rgba(255,255,255,0.1); color: #fff; }
+      &.active { background: #7B2FBE; color: #fff; }
+    }
+  }
+}

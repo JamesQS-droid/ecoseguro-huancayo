@@ -1,0 +1,128 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>📊 Dashboard de Impacto</h1>
+    <p>Av. Francisca de la Calle — Proyecto Nodos Urbanos Eco-Seguros</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card reportado">
+      <div class="stat-icon">🔴</div>
+      <div class="stat-info">
+        <span class="stat-num">{{ totalReportados() }}</span>
+        <span class="stat-label">Puntos grises reportados</span>
+      </div>
+    </div>
+    <div class="stat-card en_atencion">
+      <div class="stat-icon">🟡</div>
+      <div class="stat-info">
+        <span class="stat-num">{{ totalEnAtencion() }}</span>
+        <span class="stat-label">En atención</span>
+      </div>
+    </div>
+    <div class="stat-card resuelto">
+      <div class="stat-icon">🟢</div>
+      <div class="stat-info">
+        <span class="stat-num">{{ totalResueltos() }}</span>
+        <span class="stat-label">Resueltos</span>
+      </div>
+    </div>
+    <div class="stat-card nodos">
+      <div class="stat-icon">♻️</div>
+      <div class="stat-info">
+        <span class="stat-num">1</span>
+        <span class="stat-label">Nodos Eco-Seguros instalados</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+    <div class="impacto-section">
+      <h2>🌱 Impacto Regenerativo</h2>
+      <div class="impacto-grid">
+        <div class="impacto-card">
+          <span class="impacto-icon">🗑️</span>
+          <div>
+            <strong>Residuos recuperados</strong>
+            <p>~120 kg este mes en la Av. Francisca</p>
+          </div>
+        </div>
+        <div class="impacto-card">
+          <span class="impacto-icon">💡</span>
+          <div>
+            <strong>Cobertura lumínica</strong>
+            <p>+40% en tramos nocturnos intervenidos</p>
+          </div>
+        </div>
+        <div class="impacto-card">
+          <span class="impacto-icon">😊</span>
+          <div>
+            <strong>Percepción de seguridad</strong>
+            <p>-35% índice de miedo (encuesta vecinal)</p>
+          </div>
+        </div>
+        <div class="impacto-card">
+          <span class="impacto-icon">👥</span>
+          <div>
+            <strong>Vecinos activos</strong>
+            <p>5 entrevistados · 6 cocreadores del equipo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="historial-section">
+      <h2>📋 Historial de reportes</h2>
+      <table class="tabla-reportes">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Vecino</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+  @for (r of reportes(); track r.id) {
+    <tr>
+      <td>
+        @if (r.foto) {
+          <img class="foto-mini" [src]="r.foto" alt="Evidencia" />
+        } @else {
+          {{ iconTipo(r.tipo) }}
+        }
+      </td>
+      <td>{{ r.descripcion }}</td>
+              <td>{{ r.vecino }}</td>
+              <td>{{ r.fecha | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="estado-badge" [class]="r.estado">
+                  {{ estadoLabel(r.estado) }}
+                </span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="camiones-section">
+      <h2>🚛 Horarios de Camiones de Basura</h2>
+      <div class="camiones-grid">
+        @for (c of camiones; track c.zona) {
+          <div class="camion-card">
+            <div class="camion-header">🚛 {{ c.zona }}</div>
+            <div class="camion-info">
+              <p>⏰ <strong>{{ c.horario }}</strong></p>
+              <p>📅 {{ c.dias }}</p>
+              <p>📍 {{ c.ruta }}</p>
+            </div>
+            <div class="camion-status" [class]="c.activo ? 'activo' : 'inactivo'">
+              {{ c.activo ? '🟢 En ruta ahora' : '⏳ Próxima ruta' }}
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<div class="reporte-page">
+  <div class="reporte-container">
+    <h1>📍 Reportar Punto Gris</h1>
+    <p class="subtitle">Ayuda a mejorar la Av. Francisca de la Calle reportando puntos de contaminación o inseguridad</p>
+
+    @if (enviado()) {
+      <div class="exito">
+        <span>✅</span>
+        <div>
+          <strong>¡Reporte enviado!</strong>
+          <p>Tu reporte fue registrado. La comunidad y las autoridades serán notificadas.</p>
+        </div>
+        <button (click)="nuevoReporte()">Nuevo reporte</button>
+      </div>
+    } @else {
+      <div class="form-card">
+
+        <div class="form-group">
+          <label>📷 Foto del punto gris</label>
+
+          @if (procesandoFoto()) {
+            <div class="foto-procesando">⏳ Optimizando imagen...</div>
+          } @else if (fotoPreview()) {
+            <div class="foto-preview">
+              <img [src]="fotoPreview()" alt="Foto del punto gris" />
+              <button class="quitar-foto" (click)="quitarFoto()">✕ Quitar foto</button>
+              @if (fotoFecha()) {
+                <div class="foto-timestamp">🕒 {{ fotoFecha() | date:'dd/MM/yyyy, HH:mm' }}</div>
+              }
+            </div>
+            <label class="foto-retomar">
+              <input type="file" accept="image/*" capture="environment" (change)="onFotoSeleccionada($event)" hidden />
+              📷 Retomar foto
+            </label>
+          } @else {
+            <label class="foto-upload">
+              <input type="file" accept="image/*" capture="environment" (change)="onFotoSeleccionada($event)" hidden />
+              <span class="upload-icon">📸</span>
+              <span>Toca para tomar o subir una foto</span>
+            </label>
+          }
+
+          @if (buscandoUbicacion()) {
+            <div class="gps-status buscando">📡 Obteniendo tu ubicación...</div>
+          }
+          @if (ubicacionGPS()) {
+            <div class="gps-status ok">
+              ✅ Ubicación capturada: {{ ubicacionGPS()!.lat.toFixed(5) }}, {{ ubicacionGPS()!.lng.toFixed(5) }}
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label>👤 Tu nombre (opcional)</label>
+          <input type="text" [(ngModel)]="form.vecino" placeholder="Vecino anónimo" />
+        </div>
+
+        <div class="form-group">
+          <label>📌 Tipo de reporte</label>
+          <div class="tipo-selector">
+            <button [class.active]="form.tipo === 'basura'" (click)="form.tipo = 'basura'">
+              🗑️ Punto sucio / basura
+            </button>
+            <button [class.active]="form.tipo === 'nodo'" (click)="form.tipo = 'nodo'">
+              ♻️ Proponer nodo eco
+            </button>
+            <button [class.active]="form.tipo === 'camion'" (click)="form.tipo = 'camion'">
+              🚛 Info camión basura
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>📝 Descripción del problema</label>
+          <textarea [(ngModel)]="form.descripcion" rows="4"
+            placeholder="Describe qué observas: tipo de residuo, cantidad, si hay animales, riesgo de seguridad...">
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <label>📍 Ubicación aproximada (referencia)</label>
+          <input type="text" [(ngModel)]="form.ubicacion"
+            placeholder="Ej: Av. Francisca de la Calle #480, frente a ferretería" />
+        </div>
+
+        <div class="urgencia-group">
+          <label>🚨 Nivel de urgencia</label>
+          <div class="urgencia-selector">
+            @for (u of urgencias; track u.valor) {
+              <button [class.active]="urgencia() === u.valor"
+                      [class]="u.clase"
+                      (click)="urgencia.set(u.valor)">
+                {{ u.icon }} {{ u.label }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <button class="btn-enviar" (click)="enviar()" [disabled]="!form.descripcion">
+          📤 Enviar reporte
+        </button>
+      </div>
+    }
+  </div>
+</div>

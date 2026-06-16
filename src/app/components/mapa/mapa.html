@@ -1,0 +1,56 @@
+<<div class="mapa-container">
+  <div class="mapa-sidebar">
+    <h2>🗺️ Mapa de Puntos Grises</h2>
+    <p class="subtitle">Av. Francisca de la Calle — Huancayo</p>
+
+    <div class="leyenda">
+      <h3>Leyenda</h3>
+      <div class="leyenda-item"><span class="dot rojo"></span> Punto gris reportado</div>
+      <div class="leyenda-item"><span class="dot amarillo"></span> En atención</div>
+      <div class="leyenda-item"><span class="dot verde"></span> Resuelto / Nodo Eco-Seguro</div>
+      <div class="leyenda-item"><span class="dot azul"></span> Camión de basura</div>
+    </div>
+
+    <div class="lista-reportes">
+      <h3>Reportes activos</h3>
+      @for (r of reportes(); track r.id) {
+        <div class="reporte-card" [class]="r.estado" (click)="seleccionar(r)">
+          <div class="reporte-header">
+            <span class="tipo-icon">{{ iconTipo(r.tipo) }}</span>
+            <span class="estado-badge" [class]="r.estado">{{ estadoLabel(r.estado) }}</span>
+          </div>
+          <p class="reporte-desc">{{ r.descripcion }}</p>
+          <small>👤 {{ r.vecino }} · {{ r.fecha | date:'dd/MM/yyyy' }}</small>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="mapa-area">
+    <div id="leaflet-mapa"></div>
+
+        @if (seleccionado()) {
+        <div class="detalle-panel">
+        <button class="cerrar" (click)="seleccionado.set(null)">✕</button>
+        <h3>{{ iconTipo(seleccionado()!.tipo) }} Detalle del reporte</h3>
+
+        @if (seleccionado()!.foto) {
+        <img class="foto-detalle" [src]="seleccionado()!.foto" alt="Evidencia del reporte" />
+       }
+
+        <p><strong>Descripción:</strong> {{ seleccionado()!.descripcion }}</p>
+        <p><strong>Vecino:</strong> {{ seleccionado()!.vecino }}</p>
+        <p><strong>Fecha:</strong> {{ seleccionado()!.fecha | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Estado:</strong>
+          <span class="estado-badge" [class]="seleccionado()!.estado">
+            {{ estadoLabel(seleccionado()!.estado) }}
+          </span>
+        </p>
+        <div class="acciones">
+          <button (click)="cambiarEstado('en_atencion')" class="btn amarillo">En atención</button>
+          <button (click)="cambiarEstado('resuelto')" class="btn verde">Marcar resuelto</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
