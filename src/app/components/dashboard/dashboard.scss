@@ -150,3 +150,42 @@
   border-radius: 6px;
   display: block;
 }
+// RESPONSIVE MÓVIL
+@media (max-width: 640px) {
+  dashboard {
+    padding: 16px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+
+    .stat-card {
+      padding: 14px;
+      gap: 10px;
+
+      .stat-icon { font-size: 24px; }
+      .stat-info .stat-num { font-size: 24px; }
+    }
+  }
+
+  .impacto-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+
+    .impacto-card {
+      padding: 14px;
+    }
+  }
+
+  .camiones-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tabla-reportes {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

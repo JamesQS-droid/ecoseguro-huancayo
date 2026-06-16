@@ -144,3 +144,38 @@
   margin-bottom: 10px;
   display: block;
 }
+// RESPONSIVE MÓVIL
+@media (max-width: 640px) {
+  .mapa-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .mapa-sidebar {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid #E2E8F0;
+    height: auto;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+
+  .mapa-area {
+    height: 55vh;
+    min-height: 55vh;
+    width: 100%;
+
+    #leaflet-mapa {
+      height: 55vh !important;
+      width: 100% !important;
+    }
+
+    .detalle-panel {
+      top: 10px;
+      right: 10px;
+      left: 10px;
+      width: auto;
+    }
+  }
+}

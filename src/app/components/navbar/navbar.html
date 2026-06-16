@@ -3,14 +3,25 @@
     <span class="logo">🌱</span>
     <span class="brand-name">EcoSeguro <span class="city">Huancayo</span></span>
   </div>
-  <div class="navbar-links">
-    <a routerLink="/mapa" routerLinkActive="active">🗺️ Mapa</a>
-    <a routerLink="/reporte" routerLinkActive="active">📍 Reportar</a>
-    <a routerLink="/dashboard" routerLinkActive="active">📊 Dashboard</a>
-    @if (auth.esAdmin()) {
-      <a routerLink="/admin" routerLinkActive="active" class="admin-link">🛡️ Admin</a>
+
+  <!-- Botón hamburguesa (solo móvil) -->
+  <button class="hamburger" (click)="toggleMenu()">
+    @if (menuAbierto()) {
+      ✕
     } @else {
-      <a routerLink="/admin-login" class="admin-link-subtle">⚙️</a>
+      ☰
+    }
+  </button>
+
+  <!-- Links -->
+  <div class="navbar-links" [class.abierto]="menuAbierto()">
+    <a routerLink="/mapa" routerLinkActive="active" (click)="cerrarMenu()">🗺️ Mapa</a>
+    <a routerLink="/reporte" routerLinkActive="active" (click)="cerrarMenu()">📍 Reportar</a>
+    <a routerLink="/dashboard" routerLinkActive="active" (click)="cerrarMenu()">📊 Dashboard</a>
+    @if (auth.esAdmin()) {
+      <a routerLink="/admin" routerLinkActive="active" class="admin-link" (click)="cerrarMenu()">🛡️ Admin</a>
+    } @else {
+      <a routerLink="/admin-login" class="admin-link-subtle" (click)="cerrarMenu()">⚙️</a>
     }
   </div>
 </nav>
